@@ -1,6 +1,6 @@
 {
   "name": "binaryheap",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Timothy J Fontaine <tjfontaine@gmail.com> (http://atxconsulting.com)",
   "description": "A simple binary heap",
   "keywords": [

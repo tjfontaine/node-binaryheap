@@ -93,7 +93,16 @@ Heap.prototype.remove = function(node) {
     return ret;
   }
 
-  this._delete_swap(ret, last);
+  if (ret == last) {
+    if (ret._parent._left == node)
+      ret._parent._left = null;
+    else
+      ret._parent._right = null;
+    last = ret._parent;
+    ret._parent = null;
+  } else {
+    this._delete_swap(ret, last);
+  }
 
   if (ret == this.root)
     this.root = last;
