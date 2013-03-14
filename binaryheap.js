@@ -199,10 +199,12 @@ Heap.prototype._delete_swap = function(parent, child) {
   if (parent._right != child)
     child._right = parent._right;
 
-  if (child._parent._left == child)
-    child._parent._left = null;
-  else
-    child._parent._right = null;
+  if(child._parent) {
+    if (child._parent._left == child)
+      child._parent._left = null;
+    else
+      child._parent._right = null;
+  }
 
   child._parent = parent._parent;
 
