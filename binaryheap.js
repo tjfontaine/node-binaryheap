@@ -38,6 +38,17 @@ Heap.init = function(obj, key) {
   return obj;
 };
 
+Heap.prototype.count = function (node) {
+  if (!node) return 0;
+
+  var c = 1;
+
+  c += this.count(node._left);
+  c += this.count(node._right);
+
+  return c;
+};
+
 Heap.prototype.insert = function(obj, key) {
   var insert, node;
 
@@ -268,24 +279,25 @@ Heap.prototype._down = function(node) {
   }
 };
 
-Heap.prototype.print = function() {
-  console.log('digraph {');
-  Heap._print(this.root);
-  console.log('}');
+var util = require('util');
+
+Heap.prototype.print = function(stream) {
+  stream.write('digraph {\n');
+  Heap._print(this.root, stream);
+  stream.write('}\n');
 };
 
-Heap._print = function(heap) {
-  if (!heap)
-    return;
+Heap._print = function(heap, stream) {
+  if (!heap) return;
 
   if (heap._left) {
-    console.log('' + heap._key, '->', heap._left._key);
-    Heap._print(heap._left);
+    stream.write(util.format('' + heap._key, '->', heap._left._key, '\n'));
+    Heap._print(heap._left, stream);
   }
 
   if (heap._right) {
-    console.log('' + heap._key, '->', heap._right._key);
-    Heap._print(heap._right);
+    stream.write(util.format('' + heap._key, '->', heap._right._key, '\n'));
+    Heap._print(heap._right, stream);
   }
 };
 
