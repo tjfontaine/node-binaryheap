@@ -44,19 +44,18 @@ test("check order", function (t) {
 
 var tree_count = 9;
 
-var trees = [];
 function getDot() {
   var tree = require('fs').createWriteStream('tree.'+ ++tree_count + '.dot');
-  trees.push(tree);
   return tree;
 };
 
-function closeDot() {
-  while (trees.length)
-    trees.pop().end();
+function printHeap(heap) {
+  //rm -f *.dot *.gif && node test && for i in $(ls tree.*.dot); do dot -Tgif $i -o $(basename $i .dot).gif; done && gifsicle --delay=100 --loop *.gif > anim.gif
+  //var ds = getDot();
+  //heap.print(ds);
+  //ds.end();
 };
 
-// rm -f anim.gif && for i in $(ls tree.*.dot); do dot -Tgif $i -o $(basename $i .dot).gif; done && gifsicle --delay=100 --loop *.gif > anim.gif
 
 test("remove arbitrary elements", function (t) {
   var heap = new Heap();
@@ -74,27 +73,24 @@ test("remove arbitrary elements", function (t) {
 
   Object.keys(elems).forEach(function (key) {
     heap.insert(elems[key], elems[key].key);
-    heap.print(getDot());
+    printHeap(heap);
   });
 
-  heap.print(getDot());
   heap.remove(elems.e);
+  printHeap(heap);
+
   t.equal(heap.length, heap.count(heap.root), "length and count should match");
   t.equal(heap.length, Object.keys(elems).length - 1, "should only remove one ndoe");
-  heap.print(getDot());
+  printHeap(heap);
 
   heap.remove(elems.a);
   t.equal(heap.length, heap.count(heap.root), "length and count should match");
-  t.equal(heap.length, Object.keys(elems).length - 1, "should only remove one ndoe");
-  heap.print(getDot());
+  printHeap(heap);
 
 
   heap.remove(elems.b);
   t.equal(heap.length, heap.count(heap.root), "length and count should match");
-  t.equal(heap.length, Object.keys(elems).length - 1, "should only remove one ndoe");
-  heap.print(getDot());
-
-  closeDot();
+  printHeap(heap);
 
   t.end();
 });
